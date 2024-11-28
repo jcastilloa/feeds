@@ -123,9 +123,14 @@ func newRssItem(i *Item) *RssItem {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
 
-	if i.Author != nil {
-		item.Author = i.Author.Name
+	if i.Author != nil && i.Author.Email != "" {
+		if i.Author.Name != "" {
+			item.Author = fmt.Sprintf("%s (%s)", i.Author.Email, i.Author.Name)
+		} else {
+			item.Author = i.Author.Email
+		}
 	}
+
 	return item
 }
 
